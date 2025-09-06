@@ -2,7 +2,7 @@ import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-export default function handleError(error: any, defaultMessage: string) {
+export default function handleError(error: unknown, defaultMessage: string) {
   console.error(error, defaultMessage);
 
   if (error instanceof z.ZodError) {

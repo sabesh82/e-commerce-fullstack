@@ -41,10 +41,29 @@ const LoginForm = () => {
           reset();
 
           router.push("/explore");
-        } catch (error: any) {
-          const message =
-            error?.response?.data?.error?.message ||
-            "Failed to login. Check email or password.";
+        } catch (error: unknown) {
+          let message = "Failed to login. Check email or password.";
+
+          if (
+            typeof error === "object" &&
+            error !== null &&
+            "response" in error &&
+            (
+              error as {
+                response?: { data?: { error?: { message?: string } } };
+              }
+            ).response
+          ) {
+            const errResponse = (
+              error as {
+                response: { data: { error: { message: string } } };
+              }
+            ).response;
+            if (errResponse?.data?.error?.message) {
+              message = errResponse.data.error.message;
+            }
+          }
+
           toast.error(message);
         } finally {
           setIsLoading(false);

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/schema";
 import privateRoute from "@/helpers/privateRoute";
 import handleError from "@/helpers/handleError";
-import { updateCartItemSchema } from "@/schemas/cart.schema";
 
 export async function PATCH(request: NextRequest) {
   return privateRoute(request, async (user) => {

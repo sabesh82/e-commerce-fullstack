@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
     if (category && category !== "All") {
       filters["variants"] = { path: ["sizes"], array_contains: [category] };
     }

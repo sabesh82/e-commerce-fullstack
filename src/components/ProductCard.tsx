@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image"; // <-- Use Next.js Image
 import React from "react";
 import { IoCart } from "react-icons/io5";
 import { useApi } from "@/providers/apiProvider";
@@ -27,8 +28,13 @@ export default function ProductCard({ product }: ProductCardProps) {
     try {
       await apiClient.post("/cart", { productId: product.id, quantity: 1 });
       toast.success(`Added ${product.title} to cart!`);
-    } catch (error: any) {
-      if (error.response?.status === 401) {
+    } catch (error: unknown) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error &&
+        (error as { response?: { status?: number } }).response?.status === 401
+      ) {
         toast.error("Please login first to add items to your cart!");
         router.push("/login");
       } else {
@@ -45,9 +51,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="p-3 bg-white flex flex-col rounded-xl shadow-md hover:shadow-lg transition duration-200">
       <Link href={`/products/${product.id}`}>
-        <img
+        <Image
           src={imageUrl}
           alt={product.title}
+          width={400} // Set width and height for Next.js Image
+          height={400}
           className="h-42 w-full object-cover mb-4 rounded-xl hover:scale-105 transition duration-200 cursor-pointer"
         />
       </Link>

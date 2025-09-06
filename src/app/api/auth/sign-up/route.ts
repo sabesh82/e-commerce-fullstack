@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(_: NextRequest) {
+export async function GET() {
   try {
     const [users, count] = await prisma.$transaction([
       prisma.user.findMany({
@@ -54,7 +54,6 @@ export async function GET(_: NextRequest) {
           password: true,
         },
       }),
-
       prisma.user.count(),
     ]);
 

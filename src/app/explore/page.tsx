@@ -28,14 +28,16 @@ export default function ExplorePage() {
     const fetchProducts = async () => {
       try {
         const response = await apiClient.get("/products");
-        const formatted: Product[] = response.data.items.map((p: any) => ({
-          id: p.id,
-          title: p.title,
-          price: p.price,
-          images: p.images,
-          category: p.category,
-        }));
-
+        const formatted: Product[] = response.data.items.map((p: unknown) => {
+          const item = p as Product;
+          return {
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            images: item.images,
+            category: item.category,
+          };
+        });
         setProducts(formatted);
         setFilteredProducts(formatted);
 

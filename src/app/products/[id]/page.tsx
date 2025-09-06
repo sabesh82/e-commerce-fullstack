@@ -45,7 +45,7 @@ export default function ProductDetailPage() {
         if (response.data.data.variants?.colors) {
           setSelectedColor(response.data.data.variants.colors[0]);
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         toast.error("Failed to load product details");
       } finally {
         setLoading(false);
@@ -64,8 +64,13 @@ export default function ProductDetailPage() {
         selectedColor,
       });
       toast.success(`Added ${product.title} to cart!`);
-    } catch (error: any) {
-      if (error.response?.status === 401) {
+    } catch (error: unknown) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error &&
+        (error as { response?: { status?: number } }).response?.status === 401
+      ) {
         toast.error("Please login first to add items to your cart!");
         router.push("/login");
       } else {
