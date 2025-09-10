@@ -7,11 +7,11 @@ const page = () => {
   return (
     <section className="w-full min-h-screen grid grid-cols-1 md:grid-cols-2">
       {/*left side*/}
-      <div className="p-2">
+      <div className="">
         <Image
           src={register}
           alt=""
-          className="h-170 w-full rounded-2xl hidden sm:block object-cover"
+          className="h-screen w-full rounded-2xl hidden sm:block object-cover p-2"
         ></Image>
       </div>
       {/*right side*/}
